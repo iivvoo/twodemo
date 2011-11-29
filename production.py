@@ -1,0 +1,2 @@
+
+from twodemo.settings import *
