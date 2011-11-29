@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Create demo{% endblock %}
+{% block main %}
+<form method="post" action="{{url}}" class="form-stacked">
+  {% csrf_token %}
+  {% include "two.bootstrap/bootstrap-form.html" %}
+  <input class="btn primary" type="submit" value="Create">
+  <a href="{{redirect_to}}" class="btn">Cancel</a>
+</form>
+{% endblock %}

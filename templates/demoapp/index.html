@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Two Demo{% endblock %}
+{% block main %}
+
+<div class="row">
+  <div class="span14">
+    <h4>Demos</h4>
+    <table class="zebra-striped">
+      <thead>
+        <th>Name</th>
+        <th>Foo</th>
+      </thead>
+      <tbody>
+        {% for demo in demos %}
+        <tr>
+          <td><a href="/{{demo.id}}">{{ url.name }}</a></td>
+          <td><a href="/{{demo.id}}">Dummy</a></td>
+        </tr>
+        {% empty %}
+        <tr>
+         <td colspan="2">No demos created yet!</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="span14">
+    <a href="/create" class="btn primary">Create Demo</a>
+  </div>
+</div>
+
+{% endblock %}

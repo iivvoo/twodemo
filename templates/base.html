@@ -1,0 +1,64 @@
+{% extends "two.bootstrap/base.html" %}
+{% block base_stylesheets %}
+  <link rel="stylesheet" href="/static/css/qr.css" media="screen, projection, print"/>
+{% endblock %}
+{% block base_javascript %}
+  <script src="/static/js/qr.js"></script>
+{% endblock %}
+
+{% block topbar %}
+  <a class="brand" href="/">QRnl</a>
+
+  <ul class="nav">
+    {% if not user.is_anonymous %}
+    <li class="active"><a href="/manage/">Manage</a></li>
+    {% endif %}
+    <li><a href="/about">About</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <div class="pull-right">
+    {% if user.is_anonymous %}
+    <ul class="nav">
+      <li><a href="/signup/">Registreren</a></li>
+      <li><a href="/login/">Inloggen</a></li>
+    </ul>
+    {% else %}
+    <ul class="nav">
+      <li><a href="/manage/">{{user}}</a></li>
+      <li><a href="/login/logout">Uitloggen</a></li>
+      <li class="dropdown">
+          <a href="#" class="dropdown-toggle">{{user}}</a>
+          <ul class="dropdown-menu">
+            {% if dontshow %}
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Account</a></li>
+            <li class="divider"></li>
+            {% endif %}
+            <li><a href="/login/logout">Logout</a></li>
+          </ul>
+      </li>
+    </ul>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block base_main %}
+  <div class="span14">
+    {% block main %}
+    {% endblock %}
+  </div>
+
+{% endblock %}
+
+{% block base_footer %}
+  <p>&copy; m3r.nl 2011</p>
+{% endblock %}V
+
+{% block base_endbody %}
+<script type="text/javascript">
+
+<!-- google analytics here -->
+
+</script>
+
+{% endblock %}V

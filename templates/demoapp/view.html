@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Je QR url{% endblock %}
+{% block main %}
+
+<div class="row">
+  <div class="span14">
+    <h4>Info</h4>
+  </div>
+</div>
+<div class="row">
+  <div class="span7">
+    <h6>Verkorte URL</h6>
+    <form>
+    <textarea class-"copy-code" rows="1">{{tiny_url}}</textarea>
+    <br>
+    wijst naar
+    <br>
+    <textarea class-"copy-code" rows="1">{{instance.url}}</textarea>
+    </form>
+  </div>
+  <div class="span7">
+    <h6>QR code / image</h6>
+    <img src="{{qr_url}}"><br>
+    <a class="btn" href="{{qr_url}}?download=1">download</a>
+  </div>
+</div>
+{% if take_ownership %}
+<div class="row">
+  <div class="span14">
+    <p>
+    Je hebt wel toegang tot deze QRL maar hij is nog niet aan je account
+    gekoppeld omdat je hem geregistreerd hebt toen je niet ingelogd was.
+    </p>
+    <form method="post" action="{{url}}{{instance.id}}/link">
+      {% csrf_token %}
+      <input type="hidden" name="key" value="{{instance.key}}">
+      <input class="btn primary" type="submit" value="Koppel deze QRL">
+    </form>
+  </div>
+</div>
+{% endif %}
+<div class="row">
+  <div class="span14">
+    <h4>Bezoeken</h4>
+    <table class="condensed-table zebra-striped">
+      <thead>
+        <th>date/time (utc)</th>
+        <th>IP address</th>
+        <th>location (lat/long)</th>
+      </thead>
+      <tbody>
+        {% for stat in stats %}
+        <tr>
+          <td>{{ stat.when|date:"Y-m-d H:i:s" }}</td>
+          <td>{{ stat.ip }}</td>
+          <td>
+            {% ifequal stat.latitude -1 %}
+              unknown
+            {% else %}
+              <a target="_new" href="http://maps.google.nl/maps?q={{stat.latitude}}+{{stat.longitude}}&hl=nl">{{ stat.latitude }} {{ stat.longitude}}</a>
+            {% endifequal %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3">Geen statistieken beschikbaar</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% if not instance.owner %}
+<div class="row">
+  <div class="span14">
+    <h4>Bookmark</h4>
+      <p>
+      <a href="/manage/{{instance.id}}?key={{instance.key}}">Bookmark de huidige pagina</a> als de de QRL later wil beheren, statistieken wil inzien of aan een account wil koppelen.
+      </p>
+  </div>
+</div>
+{% endif %}
+<p>
+<a class="btn primary" href="/manage/{{instance.id}}/edit?key={{instance.key}}&redirect_to=/manage/{{instance.id}}?key={{instance.key}}">Bewerk deze QRL</a>
+{% if not user.is_anonymous %}
+<a class="btn" href="/manage/">Terug naar overzicht</a>
+{% endif %}
+</p>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Edit Demo{% endblock %}
+{% block main %}
+<form method="post" action="{{url}}{{instance.id}}" class="form-stacked">
+  {% csrf_token %}
+  {% include "two.bootstrap/bootstrap-form.html" %}
+  <input class="btn primary" type="submit" value="Update">
+  <input type="hidden" name="key" value="{{ instance.key }}">
+  <input type="hidden" name="redirect_to" value="{{ redirect_to }}">
+  <a href="{{ redirect_to }}" class="btn">Cancel</a>
+</form>
+{% endblock %}
